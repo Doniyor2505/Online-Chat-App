@@ -13,6 +13,22 @@ public class RegistrationServiceimpl implements RegistrationService {
 public static Scanner scanner;
     @Override
     public boolean signIn() {
+        scanner = new Scanner(System.in);
+
+        System.out.print("Email: ");
+        String email = scanner.next();
+
+        System.out.print("Password: ");
+        String password = scanner.next();
+
+        for (User user : MainApp.users) {
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+
+                MainApp.currentUser= user;
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -46,7 +62,7 @@ public static Scanner scanner;
 
         while (true){
 
-            System.out.println("ReTypePassword");
+            System.out.print("ReTypePassword:");
             String reTypePassword = scanner.next();
 
             if(password.equals(reTypePassword)){
@@ -57,7 +73,7 @@ public static Scanner scanner;
         System.out.println("Choose the role: ");
         int indexOfRole = 1;
         for (Role value : Role.values()) {
-            System.out.println(indexOfRole + " " + value);
+            System.out.println(indexOfRole + ". " + value);
             indexOfRole++;
         }
 
@@ -67,11 +83,13 @@ public static Scanner scanner;
         Set<User> users = MainApp.users;
         int lastId = users.size() + 1;
         User newUser = new User(
-                Long.valueOf(lastId),
+                (long) lastId,
                 firstname,
                 lastname,
                 email,
-                password
+                password,
+                true,
+                role
         );
         MainApp.users.add(newUser);
         return true;

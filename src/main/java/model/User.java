@@ -1,5 +1,6 @@
 package model;
 
+import enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,23 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+    private Boolean isActive;
+    private Role role;
+
+    @Override
+    public String toString() {
+        String status = isActive?"active":"blocked";
+        return String.format("%1$-5s", id) +
+                String.format("%1$-10s", firstname) +
+                String.format("%1$-15s", lastname) +
+                String.format("%1$-25s", email) +
+                String.format("%1$-15s", password) +
+                String.format("%1$-15s", role) +
+                String.format("%1$-15s", status);
+    }
+
+    // Id       Name            Email               Role    Status
+    // 1        Ali Valiev      ali@gmail.com       admin   active
 
     public boolean validateEmail(String email) {
         String regex = "^(.+)@(.+)$";
@@ -25,4 +43,12 @@ public class User {
 
 
     }
+
+    public void activate(){
+         setIsActive(true);
+    }
+    public void deactivate(){
+        setIsActive(false);
+    }
+
 }
