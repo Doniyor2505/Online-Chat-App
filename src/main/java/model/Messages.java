@@ -13,6 +13,6 @@ public class Messages {
     private String body;
     private User sender;
     private User receiver;
-    private User status;
+    private boolean status;
 
 }

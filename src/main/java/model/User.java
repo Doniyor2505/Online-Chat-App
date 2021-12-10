@@ -17,12 +17,15 @@ public class User {
     private String lastname;
     private String email;
     private String password;
-    private Boolean isActive;
+    private Boolean status;
     private Role role;
+    private boolean signedIn;
+
+
 
     @Override
     public String toString() {
-        String status = isActive?"active":"blocked";
+        String status = this.status ?"active":"blocked";
         return String.format("%1$-5s", id) +
                 String.format("%1$-10s", firstname) +
                 String.format("%1$-15s", lastname) +
@@ -31,6 +34,7 @@ public class User {
                 String.format("%1$-15s", role) +
                 String.format("%1$-15s", status);
     }
+
 
     // Id       Name            Email               Role    Status
     // 1        Ali Valiev      ali@gmail.com       admin   active
@@ -45,10 +49,10 @@ public class User {
     }
 
     public void activate(){
-         setIsActive(true);
+         setStatus(true);
     }
     public void deactivate(){
-        setIsActive(false);
+        setStatus(false);
     }
 
 }

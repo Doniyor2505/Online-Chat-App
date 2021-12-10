@@ -5,9 +5,7 @@ import main.MainApp;
 import model.User;
 import service.DemonstrationService;
 
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class DemonstrationServiceImpl implements DemonstrationService {
 public static Scanner scanner;
@@ -16,10 +14,52 @@ public static Scanner scanner;
     @Override
     public void showUserMenu() {
         scanner = new Scanner(System.in);
-        System.out.println("Not implemented yet!");
-        for (User user : MainApp.users) {
+        /**
+         * Boshqa foydalanuvchilarga message jo’natish
+         * O’zi egasi bo’lgan guruhga yoki o’zi a’zo bo’lgan guruhga message jo’natish .
+         * Guruh yaratish va mavjud guruhlarga a’zo bolish uchun shu guruhnign egasidan rozilik so’rovini jo’natish
+         * O’zguruhiga qoshilmoqchi bolganlar so’rovini tasdiqlash yoki rad etish
+         * O’z parolini o’zgartirish.
+         */
+
+
+        System.out.println("====== User Menu ======");
+        System.out.println("1.Send message");
+        System.out.println("2.Send message to group");
+        System.out.println("3.Group services");
+        System.out.println("4.Change password");
+        System.out.println("0.Sign Out");
+
+        System.out.print("Menu: ");
+        int choice = scanner.nextInt();
+        switch (choice){
+
+            case 0:
+                MainApp.currentUser.setSignedIn(false);
+                break;
+
+            case 1:
+                System.out.println("Kimga xat yozmoqchisiz?");
+                String email = scanner.next();
+                findByEmail(email);
+
+
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+
 
         }
+
+
 
 
 

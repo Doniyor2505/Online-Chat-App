@@ -33,7 +33,8 @@ public class MainApp {
                 "ali@gmail.com",
                 "123",
                 true,
-                Role.ADMIN));
+                Role.ADMIN,
+                false));
 
         users.add(new User(
                 2L,
@@ -42,7 +43,8 @@ public class MainApp {
                 "vali@gmail.com",
                 "456",
                 true,
-                Role.USER));
+                Role.USER,
+                false));
 
 
         while (true){
@@ -83,23 +85,18 @@ public class MainApp {
 
         if(success){
             demonstrationService = new DemonstrationServiceImpl();
+            while (currentUser.isSignedIn()) {
+                switch (currentUser.getRole()) {
 
-            switch (currentUser.getRole()){
-
-                case USER:
-                    demonstrationService.showUserMenu();
-                    break;
-                case ADMIN:
-                    demonstrationService.showAdminMenu();
-                    break;
-
-
+                    case USER:
+                        demonstrationService.showUserMenu();
+                        break;
+                    case ADMIN:
+                        demonstrationService.showAdminMenu();
+                        break;
+                }
             }
-
-
         }
-
-
     }
 
     private static void signUp() {

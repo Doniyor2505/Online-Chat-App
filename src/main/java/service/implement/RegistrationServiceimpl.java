@@ -25,6 +25,7 @@ public static Scanner scanner;
             if(user.getEmail().equals(email) && user.getPassword().equals(password)){
 
                 MainApp.currentUser= user;
+                MainApp.currentUser.setSignedIn(true);
                 return true;
             }
         }
@@ -89,7 +90,8 @@ public static Scanner scanner;
                 email,
                 password,
                 true,
-                role
+                role,
+                false
         );
         MainApp.users.add(newUser);
         return true;
