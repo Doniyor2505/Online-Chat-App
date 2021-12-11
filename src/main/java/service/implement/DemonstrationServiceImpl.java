@@ -2,6 +2,7 @@ package service.implement;
 
 import enums.Role;
 import main.MainApp;
+import model.Messages;
 import model.User;
 import service.DemonstrationService;
 
@@ -25,7 +26,7 @@ public static Scanner scanner;
 
         System.out.println("====== User Menu ======");
         System.out.println("1.Send message");
-        System.out.println("2.Send message to group");
+        System.out.println("2.Send message to channel (group)");
         System.out.println("3.Group services");
         System.out.println("4.Change password");
         System.out.println("0.Sign Out");
@@ -39,11 +40,29 @@ public static Scanner scanner;
                 break;
 
             case 1:
-                System.out.println("Kimga xat yozmoqchisiz?");
-                String email = scanner.next();
-                findByEmail(email);
+                scanner = new Scanner(System.in);
 
+                System.out.println("1. Send");
+                System.out.println("2. Inbox");
+                System.out.println("3. Outbox");
+                System.out.println("0. Sign Out");
 
+                System.out.print("Select the operation => ");
+                int choice1 = scanner.nextInt();
+                switch (choice1) {
+                    case 1:
+                        send();
+                        break;
+                    case 2:
+                        inbox();
+                        break;
+
+                    case 3:
+                        outbox();
+                        break;
+                    case 0:
+                        return;
+                }
                 break;
 
             case 2:
@@ -53,6 +72,23 @@ public static Scanner scanner;
                 break;
 
             case 4:
+                while (true) {
+                    try {
+                        System.out.print("Enter new password: ");
+                        String password = scanner.next();
+                        System.out.print("Confirm new password: ");
+                        String confirmPassword = scanner.next();
+                        if (password.equals(confirmPassword)) {
+                            MainApp.currentUser.setPassword(password);
+                            System.out.println("Password has been successfully changed.");
+                            break;
+                        } else {
+                            System.out.println("Passwords didn't match. Please, try again!");
+                        }
+                    }catch (Exception exception){
+                        exception.printStackTrace();
+                    }
+                }
                 break;
 
 
@@ -65,11 +101,108 @@ public static Scanner scanner;
 
     }
 
-    private void menuUser() {
+//    private static void unread() {
+//
+//        for (Messages email : MainApp.messages) {
+//            if (email != null) {
+//                if (email.getReceiver().equals(MainApp.currentUser)) {
+//                    System.out.println("Sizga " + email.getSender().getEmail() + " dan yangi xabar keldi.");
+//                }
+//            }
+//        }
 
+//        System.out.println("==========================");
+//
+//        System.out.println("1. Bosh Menu qaytish ");
+//        System.out.println("2. Email Menu qaytish");
+//
+//        System.out.println("=========================");
+//        scanner = new Scanner(System.in);
+//
+//        System.out.print("Select the operation => ");
+//        int choice = scanner.nextInt();
+//
+//        switch (choice){
+//            case 1:
+//                break;
+//            case 2:
+//                showEmailMenu();
+//                break;
+//        }
+
+
+
+
+    private static void outbox() {
+        for (Messages message : MainApp.messages) {
+            if(message != null){
+                if(message.getSender().equals(MainApp.currentUser)){
+                    System.out.println("------------------------------");
+                    System.out.println("Receiver: " + message.getReceiver().getEmail());
+                    System.out.println("Title: " + message.getTitle());
+                    System.out.println("Message: " + message.getBody());
+                }
+
+            }
+        }
+    }
+
+    private static void inbox() {
+
+        for (Messages message : MainApp.messages) {
+            if(message != null){
+                if(message.getReceiver().equals(MainApp.currentUser)){
+                    System.out.println("---------------------------------------");
+                    System.out.println("Sender: " + message.getSender().getEmail());
+                    System.out.println("Title: " + message.getTitle());
+                    System.out.println("Message: " + message.getBody());
+                }
+            }
+        }
 
     }
 
+    private static void send() {
+
+        System.out.println("---------->Email Addresses<----------");
+        for (User user : MainApp.users) {
+            if (user != null) {
+                if (user.equals(MainApp.currentUser)) {
+                    System.out.println(user.getEmail());
+                }
+            }
+        }
+
+
+        System.out.println("-------------------------------------");
+        System.out.print("To: ");
+        String receiverEmailAddresses = scanner.next();
+        User receiver = null;
+
+        for (User user : MainApp.users) {
+            if(user != null){
+                if(user.equals(receiverEmailAddresses)){
+                    System.out.println(user.getEmail());
+                }
+            }
+        }
+
+        System.out.print("Subject: ");
+        scanner = new Scanner(System.in);
+        String subject = scanner.nextLine();
+        System.out.print("Message: ");
+        scanner = new Scanner(System.in);
+        String message = scanner.nextLine();
+
+        Messages messages = new Messages(
+                subject,
+                message,
+                MainApp.currentUser,
+                receiver,
+                true
+        );
+        System.out.println("Successfully sent!\n");
+    }
     @Override
     public void showAdminMenu() {
 

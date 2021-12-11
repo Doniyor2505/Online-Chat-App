@@ -14,12 +14,13 @@ public static Scanner scanner;
     @Override
     public boolean signIn() {
         scanner = new Scanner(System.in);
-
+        System.out.println("---------------------");
         System.out.print("Email: ");
         String email = scanner.next();
 
         System.out.print("Password: ");
         String password = scanner.next();
+        System.out.println("----------------------");
 
         for (User user : MainApp.users) {
             if(user.getEmail().equals(email) && user.getPassword().equals(password)){
@@ -37,7 +38,7 @@ public static Scanner scanner;
     public boolean signUp() {
         User user = new User();
         scanner = new Scanner(System.in);
-
+        System.out.println("------------------------------");
         System.out.print("Firstname: ");
         String firstname = scanner.next();
 
@@ -70,6 +71,7 @@ public static Scanner scanner;
                 break;
             }
         }
+        System.out.println("-------------------------------\n");
 
         System.out.println("Choose the role: ");
         int indexOfRole = 1;

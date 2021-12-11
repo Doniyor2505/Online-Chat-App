@@ -104,7 +104,7 @@ public class MainApp {
         boolean b = registrationService.signUp();
 
         if(b){
-            System.out.println("Succes :)");
+            System.out.println("Succes :)\n");
         }else {
             System.out.println("Registration Invalid :(");
         }
