@@ -2,10 +2,12 @@ package service.implement;
 
 import enums.Role;
 import main.MainApp;
+import model.Groups;
 import model.Messages;
 import model.User;
 import service.DemonstrationService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class DemonstrationServiceImpl implements DemonstrationService {
@@ -66,6 +68,7 @@ public static Scanner scanner;
                 break;
 
             case 2:
+                chanelMessageMenu();
                 break;
 
             case 3:
@@ -98,6 +101,63 @@ public static Scanner scanner;
 
 
 
+
+    }
+
+    private void chanelMessageMenu() {
+        while (true){
+            System.out.println("---------------------------");
+            System.out.println("1.Group list ");
+            System.out.println("2.Create a group ");
+            System.out.println("3.Adding users");
+            System.out.println("0.Exit");
+            System.out.println("---------------------------");
+            System.out.print("Select the operation: => ");
+            int choice = scanner.nextInt();
+            switch (choice){
+                case 0:
+                    showUserMenu();
+                case 1:
+                    for (Groups group : MainApp.groups) {
+                        System.out.println("---------------------------");
+                        System.out.println(group.getId() + ". " + group.getName());
+                        System.out.println("--------------------------");
+                    }
+                    break;
+                case 2:
+                    scanner = new Scanner(System.in);
+                    scanner = new Scanner(System.in);
+                    Long groupId = MainApp.groups.size() + 1L;
+                    System.out.println("Enter the new name group:");
+                    String newGroup = scanner.nextLine();
+                    System.out.print("Add a users:");
+
+                   Groups groups = new Groups(
+                           groupId,
+                           newGroup
+                   );
+                    MainApp.groups.add(groups);
+                    System.out.println("The group has been created");
+
+                    System.out.println("Add a users");
+
+
+                    break;
+                case 3:
+                    System.out.println("============ Group list =========");
+                    for (Groups group : MainApp.groups) {
+                        System.out.println(group.getId() + ". " + group.getName());
+                    }
+                    System.out.println("=========================\n");
+
+
+
+
+
+            }
+
+
+        }
 
     }
 
@@ -181,8 +241,8 @@ public static Scanner scanner;
 
         for (User user : MainApp.users) {
             if(user != null){
-                if(user.equals(receiverEmailAddresses)){
-                    System.out.println(user.getEmail());
+                if(user.getEmail().equals(receiverEmailAddresses)){
+                    receiver = user;
                 }
             }
         }
@@ -201,7 +261,8 @@ public static Scanner scanner;
                 receiver,
                 true
         );
-        System.out.println("Successfully sent!\n");
+        MainApp.messages.add(messages);
+        System.out.println(receiverEmailAddresses + " successfully sent messages!\n");
     }
     @Override
     public void showAdminMenu() {
@@ -218,7 +279,7 @@ public static Scanner scanner;
             switch (choice){
                 case 1:
                     System.out.println(String.format("%1$-5s", "Id") +
-                            String.format("%1$-10s", "First name") +
+                            String.format("%1$-15s", "First name") +
                             String.format("%1$-15s", "Last name") +
                             String.format("%1$-25s", "Email") +
                             String.format("%1$-15s", "Password") +

@@ -2,6 +2,7 @@ package main;
 
 
 import enums.Role;
+import model.Groups;
 import model.Messages;
 import model.User;
 import service.DemonstrationService;
@@ -15,6 +16,7 @@ public class MainApp {
     public static Scanner scanner;
     public static Set<User> users = new HashSet<>();
     public static List<Messages> messages = new ArrayList<>();
+    public static List<Groups> groups = new ArrayList<>();
 
 
     public static User currentUser;

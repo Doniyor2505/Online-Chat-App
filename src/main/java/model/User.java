@@ -27,7 +27,7 @@ public class User {
     public String toString() {
         String status = this.status ?"active":"blocked";
         return String.format("%1$-5s", id) +
-                String.format("%1$-10s", firstname) +
+                String.format("%1$-15s", firstname) +
                 String.format("%1$-15s", lastname) +
                 String.format("%1$-25s", email) +
                 String.format("%1$-15s", password) +

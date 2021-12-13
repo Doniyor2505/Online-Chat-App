@@ -1,13 +1,22 @@
 package model;
 
-import java.util.ArrayList;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Groups {
 
     private Long id;
-    private List<Messages> messages = new ArrayList<>();
-    private List<User> admins = new ArrayList<>();
+    private String name;
+
+
+
 
 
 }
