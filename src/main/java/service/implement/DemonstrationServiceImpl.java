@@ -6,12 +6,14 @@ import model.Groups;
 import model.Messages;
 import model.User;
 import service.DemonstrationService;
+import service.GroupService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class DemonstrationServiceImpl implements DemonstrationService {
 public static Scanner scanner;
+public static GroupService groupService = new GroupsServiceImpl();
 
 
     @Override
@@ -68,10 +70,10 @@ public static Scanner scanner;
                 break;
 
             case 2:
-                chanelMessageMenu();
                 break;
 
             case 3:
+                chanelMessageMenu();
                 break;
 
             case 4:
@@ -105,93 +107,62 @@ public static Scanner scanner;
     }
 
     private void chanelMessageMenu() {
+        boolean returnBack = false;
         while (true){
             System.out.println("---------------------------");
-            System.out.println("1.Group list ");
-            System.out.println("2.Create a group ");
-            System.out.println("3.Adding users");
+            System.out.println("1.Add Group ");
+            System.out.println("2.Edit Group");
+            System.out.println("3.Delete Group");
+            System.out.println("4.Add users");
+            System.out.println("5.Group list");
             System.out.println("0.Exit");
             System.out.println("---------------------------");
             System.out.print("Select the operation: => ");
             int choice = scanner.nextInt();
             switch (choice){
                 case 0:
-                    showUserMenu();
-                case 1:
-                    for (Groups group : MainApp.groups) {
-                        System.out.println("---------------------------");
-                        System.out.println(group.getId() + ". " + group.getName());
-                        System.out.println("--------------------------");
-                    }
+                    returnBack = true;
                     break;
-                case 2:
-                    scanner = new Scanner(System.in);
+                case 1:
                     scanner = new Scanner(System.in);
                     Long groupId = MainApp.groups.size() + 1L;
                     System.out.println("Enter the new name group:");
-                    String newGroup = scanner.nextLine();
-                    System.out.print("Add a users:");
+                    String newGroup = scanner.next();
 
-                   Groups groups = new Groups(
-                           groupId,
-                           newGroup
-                   );
-                    MainApp.groups.add(groups);
+                    Groups groups = new Groups(
+                            groupId,
+                            newGroup
+                    );
+                    groupService.addGroup(groups);
                     System.out.println("The group has been created");
+                    break;
+                case 2:
+                    String editGroups = scanner.next();
+                    Groups groupToUpdate = groupService.findByName(editGroups);
+                    System.out.println(groupToUpdate);
 
-                    System.out.println("Add a users");
-
+                        System.out.print("Enter new groupname: ");
+                        String newGroupName = scanner.next();
+                        groupToUpdate.setName(newGroupName);
+                        System.out.println("Successfully updated.");
+                        break;
+                case 3:
 
                     break;
-                case 3:
-                    System.out.println("============ Group list =========");
+
+                case 5:
                     for (Groups group : MainApp.groups) {
                         System.out.println(group.getId() + ". " + group.getName());
                     }
-                    System.out.println("=========================\n");
+                    break;
 
-
-
-
-
+            }if(returnBack){
+                break;
             }
-
-
         }
+        showUserMenu();
 
     }
-
-//    private static void unread() {
-//
-//        for (Messages email : MainApp.messages) {
-//            if (email != null) {
-//                if (email.getReceiver().equals(MainApp.currentUser)) {
-//                    System.out.println("Sizga " + email.getSender().getEmail() + " dan yangi xabar keldi.");
-//                }
-//            }
-//        }
-
-//        System.out.println("==========================");
-//
-//        System.out.println("1. Bosh Menu qaytish ");
-//        System.out.println("2. Email Menu qaytish");
-//
-//        System.out.println("=========================");
-//        scanner = new Scanner(System.in);
-//
-//        System.out.print("Select the operation => ");
-//        int choice = scanner.nextInt();
-//
-//        switch (choice){
-//            case 1:
-//                break;
-//            case 2:
-//                showEmailMenu();
-//                break;
-//        }
-
-
-
 
     private static void outbox() {
         for (Messages message : MainApp.messages) {
