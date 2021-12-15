@@ -7,7 +7,6 @@ import service.GroupService;
 import java.util.List;
 
 public class GroupsServiceImpl implements GroupService {
-
     @Override
     public boolean addGroup(Groups groups) {
         MainApp.groups.add(groups);
@@ -26,7 +25,7 @@ public class GroupsServiceImpl implements GroupService {
     public boolean deleteGroups(Long id) {
         for (Groups group : MainApp.groups) {
             if(group.getId().equals(id)){
-                MainApp.groups.remove(id);
+                MainApp.groups.remove(group);
                 return true;
             }
         }

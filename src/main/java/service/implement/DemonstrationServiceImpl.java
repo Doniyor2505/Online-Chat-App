@@ -156,7 +156,18 @@ static List<User> userList = new ArrayList<>();
                         System.out.println("Successfully updated.");
                         break;
                 case 3:
-
+                    for (Groups group : MainApp.groups) {
+                        System.out.println(group.getId() + ". " + group.getName());
+                    }
+                    System.out.print("Enter group id: ");
+                    int groupIdForDeletion = scanner.nextInt();
+                    boolean deleteStatus = groupService.deleteGroups((long)groupIdForDeletion);
+                    if(deleteStatus){
+                        System.out.println("Group deleted successfully.");
+                    }
+                    else {
+                        System.out.println("There was error in groud deletion.");
+                    }
                     break;
                 case 4:
                     for (Groups group : MainApp.groups) {
@@ -189,7 +200,10 @@ static List<User> userList = new ArrayList<>();
                     }
                     System.out.println("======== Users Menu =======");
                     for (Groups group : MainApp.groups) {
-                        System.out.println(group.getUsers());
+                        List<User> users = group.getUsers();
+                        for (User user : users) {
+                            System.out.println(user);
+                        }
                     }
                     System.out.println("===========================");
                     break;
