@@ -8,12 +8,14 @@ import model.User;
 import service.DemonstrationService;
 import service.GroupService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class DemonstrationServiceImpl implements DemonstrationService {
 public static Scanner scanner;
 public static GroupService groupService = new GroupsServiceImpl();
+static List<User> userList = new ArrayList<>();
 
 
     @Override
@@ -30,7 +32,7 @@ public static GroupService groupService = new GroupsServiceImpl();
 
         System.out.println("====== User Menu ======");
         System.out.println("1.Send message");
-        System.out.println("2.Send message to channel (group)");
+        System.out.println("2.Send message to group");
         System.out.println("3.Group services");
         System.out.println("4.Change password");
         System.out.println("0.Sign Out");
@@ -70,6 +72,7 @@ public static GroupService groupService = new GroupsServiceImpl();
                 break;
 
             case 2:
+
                 break;
 
             case 3:
@@ -123,19 +126,24 @@ public static GroupService groupService = new GroupsServiceImpl();
                 case 0:
                     returnBack = true;
                     break;
+
                 case 1:
                     scanner = new Scanner(System.in);
                     Long groupId = MainApp.groups.size() + 1L;
                     System.out.println("Enter the new name group:");
                     String newGroup = scanner.next();
-
                     Groups groups = new Groups(
                             groupId,
-                            newGroup
+                            newGroup,
+                            Role.ADMIN,
+                            MainApp.currentUser,
+                            Role.USER,
+                            userList
                     );
                     groupService.addGroup(groups);
                     System.out.println("The group has been created");
                     break;
+
                 case 2:
                     String editGroups = scanner.next();
                     Groups groupToUpdate = groupService.findByName(editGroups);
@@ -144,9 +152,34 @@ public static GroupService groupService = new GroupsServiceImpl();
                         System.out.print("Enter new groupname: ");
                         String newGroupName = scanner.next();
                         groupToUpdate.setName(newGroupName);
+                        groupService.editGroups(groupToUpdate);
                         System.out.println("Successfully updated.");
                         break;
                 case 3:
+
+                    break;
+                case 4:
+                    for (Groups group : MainApp.groups) {
+                        System.out.println(group.getId() + ". " + group.getName() + " || Owner: " + group.getOwner());
+                        long choicex = scanner.nextLong();
+                        if(group.getId().equals(choicex)){
+                            System.out.println("Add user: (+)\t\t\t\tCancel (-)");
+                            String charachter = scanner.next();
+                            switch (charachter){
+                                case "+":
+                                    System.out.print("Enter the user email:");
+                                    String email = scanner.next();
+                                    userList.add(findByEmail(email));
+                                    System.out.println(email + " has been added to the group");
+                                    break;
+                                case "-":
+                                    break;
+                            }
+                        }else{
+                            System.out.println("There is no such group!");
+                        }
+                        break;
+                    }
 
                     break;
 
@@ -154,6 +187,11 @@ public static GroupService groupService = new GroupsServiceImpl();
                     for (Groups group : MainApp.groups) {
                         System.out.println(group.getId() + ". " + group.getName());
                     }
+                    System.out.println("======== Users Menu =======");
+                    for (Groups group : MainApp.groups) {
+                        System.out.println(group.getUsers());
+                    }
+                    System.out.println("===========================");
                     break;
 
             }if(returnBack){

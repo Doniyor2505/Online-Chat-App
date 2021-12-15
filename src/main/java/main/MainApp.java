@@ -47,6 +47,15 @@ public class MainApp {
                 true,
                 Role.USER,
                 false));
+        users.add(new User(
+                3L,
+                "Salim",
+                "Salimov",
+                "salim@gmail.com",
+                "789",
+                true,
+                Role.USER,
+                false));
 
 
         while (true){
